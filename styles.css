@@ -1,0 +1,183 @@
+:root {
+  color-scheme: light;
+  --page-bg: #07152b;
+  --focus: #f08b0f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: linear-gradient(130deg, #11151d 0%, #182231 55%, #0b2035 100%);
+  font-family:
+    "Pretendard",
+    "Noto Sans KR",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.poster-stage {
+  display: grid;
+  min-height: 100vh;
+  overflow: auto;
+  padding: clamp(12px, 2vw, 28px);
+  place-items: center;
+}
+
+.poster {
+  aspect-ratio: 1672 / 941;
+  border-radius: 8px;
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.24);
+  isolation: isolate;
+  min-width: min(980px, calc(100vw - 24px));
+  overflow: visible;
+  position: relative;
+  width: min(1672px, calc(100vw - clamp(24px, 4vw, 56px)));
+}
+
+.poster-image {
+  border-radius: inherit;
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+  width: 100%;
+}
+
+.company-hotspot {
+  --scale: 1;
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
+  --lift: 0%;
+  --shine-x: -145%;
+  border-radius: 8px;
+  box-shadow: 0 0 0 rgba(13, 27, 42, 0);
+  cursor: pointer;
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  transform:
+    perspective(900px)
+    translate3d(0, var(--lift), 0)
+    scale(var(--scale))
+    rotateX(var(--tilt-x))
+    rotateY(var(--tilt-y));
+  transform-origin: center;
+  transition:
+    box-shadow 180ms ease,
+    filter 180ms ease,
+    transform 130ms ease;
+  z-index: 2;
+}
+
+.company-hotspot::before,
+.company-hotspot::after {
+  content: "";
+  inset: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.company-hotspot::before {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.34), transparent 32%),
+    linear-gradient(180deg, transparent 55%, rgba(37, 99, 235, 0.14));
+  opacity: 0;
+  transition: opacity 160ms ease;
+  z-index: 2;
+}
+
+.company-hotspot::after {
+  background: linear-gradient(
+    110deg,
+    transparent 0%,
+    transparent 32%,
+    rgba(255, 255, 255, 0.75) 46%,
+    transparent 58%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  transform: translateX(var(--shine-x)) skewX(-18deg);
+  transition: transform 520ms cubic-bezier(0.18, 0.78, 0.24, 1);
+  z-index: 3;
+}
+
+.company-card-image {
+  display: block;
+  height: auto;
+  max-width: none;
+  pointer-events: none;
+  position: absolute;
+  user-select: none;
+}
+
+.company-hotspot:hover,
+.company-hotspot:focus-visible {
+  --lift: -8%;
+  --scale: 1.075;
+  --shine-x: 145%;
+  filter: saturate(1.12) contrast(1.04);
+  outline: 0;
+  z-index: 20;
+  box-shadow:
+    0 16px 24px rgba(1, 22, 56, 0.24),
+    0 0 0 2px rgba(255, 255, 255, 0.85),
+    0 0 28px rgba(37, 99, 235, 0.34);
+}
+
+.company-hotspot:hover::before,
+.company-hotspot:focus-visible::before {
+  opacity: 1;
+}
+
+.company-hotspot:focus-visible {
+  box-shadow:
+    0 16px 24px rgba(1, 22, 56, 0.24),
+    0 0 0 3px var(--focus),
+    0 0 34px rgba(240, 139, 15, 0.42);
+}
+
+.company-hotspot:active {
+  --lift: -2%;
+  --scale: 1.025;
+}
+
+@media (max-width: 980px) {
+  .poster-stage {
+    justify-content: start;
+    place-items: center start;
+  }
+
+  .poster {
+    min-width: 980px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .company-hotspot,
+  .company-hotspot::before,
+  .company-hotspot::after {
+    transition: none;
+  }
+
+  .company-hotspot:hover,
+  .company-hotspot:focus-visible {
+    --lift: 0%;
+    --scale: 1.03;
+    --tilt-x: 0deg;
+    --tilt-y: 0deg;
+  }
+}
