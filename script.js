@@ -84,3 +84,7 @@ document.querySelectorAll(".tiger-hotspot").forEach((tiger) => {
   tiger.addEventListener("pointerleave", () => resetTigerTilt(tiger));
   tiger.addEventListener("blur", () => resetTigerTilt(tiger));
 });
+
+document.querySelectorAll(".school-hotspot").forEach((school) => {
+  placePosterLayer(school);
+});

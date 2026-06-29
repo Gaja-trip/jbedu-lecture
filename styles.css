@@ -158,34 +158,6 @@ body {
   z-index: 12;
 }
 
-.tiger-thumb {
-  display: block;
-  filter: drop-shadow(0 12px 12px rgba(23, 29, 42, 0.22));
-  left: 0.5%;
-  opacity: 0;
-  position: absolute;
-  top: 22%;
-  transform: translate3d(-10%, 12%, 0) rotate(-28deg) scale(0.62);
-  transform-origin: 58% 86%;
-  transition:
-    opacity 120ms ease,
-    transform 230ms cubic-bezier(0.18, 0.86, 0.22, 1.24);
-  width: 40%;
-}
-
-.tiger-thumb svg {
-  display: block;
-  height: auto;
-  width: 100%;
-}
-
-.tiger-hotspot:hover .tiger-thumb,
-.tiger-hotspot:focus-visible .tiger-thumb {
-  animation: thumb-wiggle 760ms ease-in-out both;
-  opacity: 1;
-  transform: translate3d(0, -6%, 0) rotate(-12deg) scale(1);
-}
-
 .tiger-spark {
   opacity: 0;
   position: absolute;
@@ -197,14 +169,15 @@ body {
 
 .tiger-spark::before,
 .tiger-spark::after {
-  background: #f08b0f;
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: #ffd94a;
+  border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 999px;
   content: "";
   display: block;
-  height: 4px;
+  filter: drop-shadow(0 0 8px rgba(240, 139, 15, 0.95));
+  height: 5px;
   position: absolute;
-  width: 28px;
+  width: 34px;
 }
 
 .tiger-spark::after {
@@ -212,24 +185,37 @@ body {
 }
 
 .tiger-spark-one {
-  left: 16%;
-  top: 16%;
+  left: 12%;
+  top: 20%;
 }
 
 .tiger-spark-two {
-  left: 32%;
-  top: 25%;
+  left: 79%;
+  top: 12%;
   transform: scale(0.5) rotate(28deg);
 }
 
 .tiger-spark-three {
-  left: 7%;
-  top: 43%;
+  left: 13%;
+  top: 58%;
   transform: scale(0.42) rotate(-20deg);
+}
+
+.tiger-spark-four {
+  left: 83%;
+  top: 44%;
+  transform: scale(0.5) rotate(-10deg);
+}
+
+.tiger-spark-five {
+  left: 58%;
+  top: 1%;
+  transform: scale(0.45) rotate(16deg);
 }
 
 .tiger-hotspot:hover .tiger-spark,
 .tiger-hotspot:focus-visible .tiger-spark {
+  animation: spark-pulse 940ms ease-in-out infinite alternate;
   opacity: 1;
   transform: scale(1);
 }
@@ -242,6 +228,74 @@ body {
 .tiger-hotspot:hover .tiger-spark-three,
 .tiger-hotspot:focus-visible .tiger-spark-three {
   transform: scale(0.68) rotate(-20deg);
+}
+
+.tiger-hotspot:hover .tiger-spark-four,
+.tiger-hotspot:focus-visible .tiger-spark-four {
+  transform: scale(0.78) rotate(-10deg);
+}
+
+.tiger-hotspot:hover .tiger-spark-five,
+.tiger-hotspot:focus-visible .tiger-spark-five {
+  transform: scale(0.72) rotate(16deg);
+}
+
+.school-hotspot {
+  border-radius: 8px;
+  cursor: pointer;
+  display: block;
+  overflow: hidden;
+  position: absolute;
+  transition:
+    box-shadow 180ms ease,
+    transform 180ms ease;
+  z-index: 5;
+}
+
+.school-hotspot::before,
+.school-hotspot::after {
+  content: "";
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transition: opacity 180ms ease;
+}
+
+.school-hotspot::before {
+  background: linear-gradient(90deg, rgba(240, 139, 15, 0.18), rgba(37, 99, 235, 0.12));
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.6),
+    0 0 22px rgba(240, 139, 15, 0.32);
+}
+
+.school-hotspot::after {
+  background: linear-gradient(110deg, transparent 12%, rgba(255, 255, 255, 0.45) 46%, transparent 70%);
+  transform: translateX(-100%) skewX(-18deg);
+  transition:
+    opacity 180ms ease,
+    transform 520ms cubic-bezier(0.18, 0.78, 0.24, 1);
+}
+
+.school-hotspot:hover,
+.school-hotspot:focus-visible {
+  outline: 0;
+  transform: translateY(-2%);
+  z-index: 16;
+  box-shadow: 0 14px 24px rgba(1, 22, 56, 0.22);
+}
+
+.school-hotspot:hover::before,
+.school-hotspot:hover::after,
+.school-hotspot:focus-visible::before,
+.school-hotspot:focus-visible::after {
+  opacity: 1;
+}
+
+.school-hotspot:hover::after,
+.school-hotspot:focus-visible::after {
+  transform: translateX(100%) skewX(-18deg);
 }
 
 .company-hotspot:hover,
@@ -290,9 +344,12 @@ body {
   .company-hotspot,
   .company-hotspot::before,
   .company-hotspot::after,
+  .school-hotspot,
+  .school-hotspot::before,
+  .school-hotspot::after,
   .tiger-hotspot,
-  .tiger-thumb,
   .tiger-spark {
+    animation: none;
     transition: none;
   }
 
@@ -311,27 +368,16 @@ body {
     --tiger-tilt-x: 0deg;
     --tiger-tilt-y: 0deg;
   }
-
-  .tiger-hotspot:hover .tiger-thumb,
-  .tiger-hotspot:focus-visible .tiger-thumb {
-    animation: none;
-  }
 }
 
-@keyframes thumb-wiggle {
+@keyframes spark-pulse {
   0% {
-    transform: translate3d(-4%, 2%, 0) rotate(-24deg) scale(0.82);
-  }
-
-  44% {
-    transform: translate3d(2%, -9%, 0) rotate(-5deg) scale(1.08);
-  }
-
-  70% {
-    transform: translate3d(0, -6%, 0) rotate(-15deg) scale(0.98);
+    filter: drop-shadow(0 0 4px rgba(240, 139, 15, 0.8));
+    opacity: 0.68;
   }
 
   100% {
-    transform: translate3d(0, -6%, 0) rotate(-12deg) scale(1);
+    filter: drop-shadow(0 0 14px rgba(240, 139, 15, 1));
+    opacity: 1;
   }
 }
