@@ -278,7 +278,7 @@ body {
     scale(var(--scale))
     rotateX(var(--tilt-x))
     rotateY(var(--tilt-y));
-  transform-origin: center;
+  transform-origin: left center;
   transition:
     filter 160ms ease,
     opacity 160ms ease,
