@@ -39,6 +39,24 @@ function placeCroppedLayer(layer, imageSelector) {
   }
 }
 
+function placeNestedCroppedLayer(layer, imageSelector, parentDimensions) {
+  const x = Number(layer.dataset.x);
+  const y = Number(layer.dataset.y);
+  const width = Number(layer.dataset.w);
+  const height = Number(layer.dataset.h);
+
+  layer.style.left = percent(x - parentDimensions.x, parentDimensions.width);
+  layer.style.top = percent(y - parentDimensions.y, parentDimensions.height);
+  layer.style.width = percent(width, parentDimensions.width);
+  layer.style.height = percent(height, parentDimensions.height);
+
+  const image = layer.querySelector(imageSelector);
+
+  if (image) {
+    cropPosterImage(image, { x, y, width, height });
+  }
+}
+
 function placeCompanyCard(card) {
   placeCroppedLayer(card, ".company-card-image");
 }
@@ -96,17 +114,13 @@ document.querySelectorAll(".tiger-hotspot").forEach((tiger) => {
 });
 
 document.querySelectorAll(".school-hotspot").forEach((school) => {
-  placeCroppedLayer(school, ".school-card-image");
+  const schoolDimensions = placePosterLayer(school);
+
+  school.querySelectorAll(".school-pop-layer").forEach((layer) => {
+    placeNestedCroppedLayer(layer, ".school-pop-image", schoolDimensions);
+  });
 
   school.addEventListener("pointermove", (event) => updateTilt(school, event));
   school.addEventListener("pointerleave", () => resetTilt(school));
   school.addEventListener("blur", () => resetTilt(school));
-});
-
-document.querySelectorAll(".chart-slice").forEach((slice) => {
-  placeCroppedLayer(slice, ".chart-slice-image");
-
-  slice.addEventListener("pointermove", (event) => updateTilt(slice, event));
-  slice.addEventListener("pointerleave", () => resetTilt(slice));
-  slice.addEventListener("blur", () => resetTilt(slice));
 });

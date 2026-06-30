@@ -116,8 +116,7 @@ body {
 }
 
 .company-card-image,
-.school-card-image,
-.chart-slice-image {
+.school-pop-image {
   display: block;
   height: auto;
   max-width: none;
@@ -161,13 +160,13 @@ body {
 }
 
 .tiger-spark {
-  --spark-hover-scale: 0.86;
+  --spark-hover-scale: 0.96;
   --spark-rest-scale: 0.46;
   --spark-rotation: 0deg;
   --spark-size: 48px;
   background:
-    radial-gradient(circle, rgba(255, 255, 255, 0.68) 0 4%, rgba(255, 224, 128, 0.24) 12%, transparent 42%),
-    radial-gradient(circle, rgba(37, 99, 235, 0.12), transparent 58%);
+    radial-gradient(circle, rgba(255, 255, 255, 0.96) 0 5%, rgba(255, 229, 112, 0.64) 13%, transparent 44%),
+    radial-gradient(circle, rgba(37, 99, 235, 0.24), transparent 60%);
   height: var(--spark-size);
   mix-blend-mode: screen;
   opacity: 0;
@@ -182,13 +181,15 @@ body {
 
 .tiger-spark::before,
 .tiger-spark::after {
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), rgba(255, 225, 122, 0.52), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.96), rgba(255, 225, 122, 0.82), transparent);
   border: 0;
   border-radius: 999px;
   content: "";
   display: block;
-  filter: drop-shadow(0 0 8px rgba(240, 139, 15, 0.46));
-  height: 2px;
+  filter:
+    drop-shadow(0 0 6px rgba(255, 255, 255, 0.8))
+    drop-shadow(0 0 12px rgba(240, 139, 15, 0.82));
+  height: 3px;
   left: 50%;
   position: absolute;
   top: 50%;
@@ -199,7 +200,7 @@ body {
 .tiger-spark::after {
   height: 100%;
   transform: translate(-50%, -50%) rotate(90deg);
-  width: 2px;
+  width: 3px;
 }
 
 .tiger-spark-one {
@@ -209,7 +210,7 @@ body {
 }
 
 .tiger-spark-two {
-  --spark-hover-scale: 0.76;
+  --spark-hover-scale: 0.86;
   --spark-rest-scale: 0.4;
   --spark-rotation: 28deg;
   --spark-size: 42px;
@@ -218,7 +219,7 @@ body {
 }
 
 .tiger-spark-three {
-  --spark-hover-scale: 0.66;
+  --spark-hover-scale: 0.76;
   --spark-rest-scale: 0.34;
   --spark-rotation: -20deg;
   --spark-size: 40px;
@@ -227,7 +228,7 @@ body {
 }
 
 .tiger-spark-four {
-  --spark-hover-scale: 0.76;
+  --spark-hover-scale: 0.86;
   --spark-rest-scale: 0.4;
   --spark-rotation: -10deg;
   --spark-size: 44px;
@@ -236,7 +237,7 @@ body {
 }
 
 .tiger-spark-five {
-  --spark-hover-scale: 0.7;
+  --spark-hover-scale: 0.8;
   --spark-rest-scale: 0.36;
   --spark-rotation: 16deg;
   --spark-size: 38px;
@@ -247,7 +248,7 @@ body {
 .tiger-hotspot:hover .tiger-spark,
 .tiger-hotspot:focus-visible .tiger-spark {
   animation: spark-pulse 940ms ease-in-out infinite alternate;
-  opacity: 0.72;
+  opacity: 0.95;
   transform: scale(var(--spark-hover-scale)) rotate(var(--spark-rotation));
 }
 
@@ -256,12 +257,10 @@ body {
   --tilt-x: 0deg;
   --tilt-y: 0deg;
   --lift: 0%;
-  --shine-x: -145%;
-  border-radius: 8px;
-  box-shadow: 0 0 0 rgba(13, 27, 42, 0);
+  border-radius: 0;
   cursor: pointer;
   display: block;
-  overflow: hidden;
+  overflow: visible;
   position: absolute;
   transform:
     perspective(900px)
@@ -271,193 +270,37 @@ body {
     rotateY(var(--tilt-y));
   transform-origin: center;
   transition:
-    box-shadow 180ms ease,
-    filter 180ms ease,
     transform 130ms ease;
   z-index: 5;
 }
 
-.school-hotspot::before,
-.school-hotspot::after {
-  content: "";
-  inset: 0;
+.school-pop-layer {
+  display: block;
+  mix-blend-mode: screen;
   opacity: 0;
+  overflow: hidden;
   pointer-events: none;
   position: absolute;
-  transition: opacity 180ms ease;
-}
-
-.school-hotspot::before {
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.28), transparent 38%),
-    linear-gradient(90deg, rgba(240, 139, 15, 0.14), rgba(37, 99, 235, 0.1));
-  border-radius: inherit;
-  box-shadow:
-    inset 0 0 0 2px rgba(255, 255, 255, 0.72),
-    0 0 22px rgba(240, 139, 15, 0.28);
-  z-index: 2;
-}
-
-.school-hotspot::after {
-  background: linear-gradient(
-    110deg,
-    transparent 0%,
-    transparent 32%,
-    rgba(255, 255, 255, 0.68) 46%,
-    transparent 58%,
-    transparent 100%
-  );
-  mix-blend-mode: screen;
-  transform: translateX(var(--shine-x)) skewX(-18deg);
   transition:
-    opacity 180ms ease,
-    transform 520ms cubic-bezier(0.18, 0.78, 0.24, 1);
-  z-index: 3;
+    filter 160ms ease,
+    opacity 160ms ease;
 }
 
 .school-hotspot:hover,
 .school-hotspot:focus-visible {
   --lift: -8%;
   --scale: 1.055;
-  --shine-x: 145%;
-  filter: saturate(1.08) contrast(1.03);
   outline: 0;
   z-index: 16;
-  box-shadow:
-    0 16px 24px rgba(1, 22, 56, 0.24),
-    0 0 0 2px rgba(255, 255, 255, 0.85),
-    0 0 28px rgba(240, 139, 15, 0.28);
 }
 
-.school-hotspot:hover::before,
-.school-hotspot:hover::after,
-.school-hotspot:focus-visible::before,
-.school-hotspot:focus-visible::after {
-  opacity: 1;
-}
-
-.school-hotspot:hover::after,
-.school-hotspot:focus-visible::after {
-  transform: translateX(var(--shine-x)) skewX(-18deg);
+.school-hotspot:hover .school-pop-layer,
+.school-hotspot:focus-visible .school-pop-layer {
+  filter: brightness(1.42) contrast(1.22) saturate(1.12);
+  opacity: 0.96;
 }
 
 .school-hotspot:active {
-  --lift: -2%;
-  --scale: 1.02;
-}
-
-.chart-slice {
-  --lift: 0%;
-  --scale: 1;
-  --shine-x: -145%;
-  --tilt-x: 0deg;
-  --tilt-y: 0deg;
-  appearance: none;
-  background: transparent;
-  border: 0;
-  border-radius: 50%;
-  clip-path: var(--slice-clip);
-  cursor: pointer;
-  display: block;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  transform:
-    perspective(900px)
-    translate3d(0, var(--lift), 0)
-    scale(var(--scale))
-    rotateX(var(--tilt-x))
-    rotateY(var(--tilt-y));
-  transform-origin: var(--slice-origin, center);
-  transition:
-    filter 180ms ease,
-    transform 130ms ease;
-  z-index: 6;
-  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 0 34%, #000 36% 94%, transparent 96%);
-  mask-image: radial-gradient(circle at 50% 50%, transparent 0 34%, #000 36% 94%, transparent 96%);
-}
-
-.chart-slice::before,
-.chart-slice::after {
-  content: "";
-  inset: 0;
-  opacity: 0;
-  pointer-events: none;
-  position: absolute;
-  transition:
-    opacity 160ms ease,
-    transform 520ms cubic-bezier(0.18, 0.78, 0.24, 1);
-}
-
-.chart-slice::before {
-  background:
-    radial-gradient(circle at 50% 50%, transparent 36%, rgba(255, 255, 255, 0.26) 37%, transparent 54%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.24), transparent 42%);
-  z-index: 2;
-}
-
-.chart-slice::after {
-  background: linear-gradient(110deg, transparent 12%, rgba(255, 255, 255, 0.55) 46%, transparent 70%);
-  mix-blend-mode: screen;
-  transform: translateX(var(--shine-x)) skewX(-18deg);
-  z-index: 3;
-}
-
-.chart-slice-green {
-  --slice-clip: polygon(48% 0%, 51% 48%, 43% 59%, 27% 98%, 0% 98%, 0% 0%);
-  --slice-origin: 34% 42%;
-}
-
-.chart-slice-light-blue {
-  --slice-clip: polygon(48% 0%, 100% 0%, 100% 43%, 58% 51%, 51% 48%);
-  --slice-origin: 68% 32%;
-}
-
-.chart-slice-dark-blue {
-  --slice-clip: polygon(58% 51%, 100% 43%, 100% 100%, 50% 100%, 48% 59%);
-  --slice-origin: 70% 70%;
-}
-
-.chart-slice-gray {
-  --slice-clip: polygon(0% 59%, 43% 59%, 48% 59%, 50% 100%, 0% 100%);
-  --slice-origin: 34% 72%;
-}
-
-.chart-slice:hover,
-.chart-slice:focus-visible {
-  --lift: -7%;
-  --scale: 1.045;
-  --shine-x: 145%;
-  filter:
-    saturate(1.12)
-    contrast(1.05)
-    drop-shadow(0 16px 12px rgba(1, 22, 56, 0.24))
-    drop-shadow(0 0 18px rgba(37, 99, 235, 0.22));
-  outline: 0;
-  z-index: 22;
-}
-
-.chart-slice:hover::before,
-.chart-slice:hover::after,
-.chart-slice:focus-visible::before,
-.chart-slice:focus-visible::after {
-  opacity: 1;
-}
-
-.chart-slice:hover::after,
-.chart-slice:focus-visible::after {
-  transform: translateX(var(--shine-x)) skewX(-18deg);
-}
-
-.chart-slice:focus-visible {
-  filter:
-    saturate(1.12)
-    contrast(1.05)
-    drop-shadow(0 0 0 var(--focus))
-    drop-shadow(0 16px 12px rgba(1, 22, 56, 0.24));
-}
-
-.chart-slice:active {
   --lift: -2%;
   --scale: 1.02;
 }
@@ -509,11 +352,7 @@ body {
   .company-hotspot::before,
   .company-hotspot::after,
   .school-hotspot,
-  .school-hotspot::before,
-  .school-hotspot::after,
-  .chart-slice,
-  .chart-slice::before,
-  .chart-slice::after,
+  .school-pop-layer,
   .tiger-hotspot,
   .tiger-spark {
     animation: none;
@@ -523,9 +362,7 @@ body {
   .company-hotspot:hover,
   .company-hotspot:focus-visible,
   .school-hotspot:hover,
-  .school-hotspot:focus-visible,
-  .chart-slice:hover,
-  .chart-slice:focus-visible {
+  .school-hotspot:focus-visible {
     --lift: 0%;
     --scale: 1.03;
     --tilt-x: 0deg;
@@ -543,12 +380,16 @@ body {
 
 @keyframes spark-pulse {
   0% {
-    filter: drop-shadow(0 0 4px rgba(240, 139, 15, 0.34));
-    opacity: 0.38;
+    filter:
+      drop-shadow(0 0 5px rgba(255, 255, 255, 0.74))
+      drop-shadow(0 0 10px rgba(240, 139, 15, 0.72));
+    opacity: 0.74;
   }
 
   100% {
-    filter: drop-shadow(0 0 14px rgba(240, 139, 15, 0.58));
-    opacity: 0.76;
+    filter:
+      drop-shadow(0 0 8px rgba(255, 255, 255, 0.9))
+      drop-shadow(0 0 18px rgba(240, 139, 15, 0.95));
+    opacity: 1;
   }
 }
