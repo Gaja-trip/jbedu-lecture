@@ -23,14 +23,24 @@ function placePosterLayer(layer) {
   return { x, y, width, height };
 }
 
-function placeCompanyCard(card) {
-  const { x, y, width, height } = placePosterLayer(card);
-  const image = card.querySelector(".company-card-image");
-
+function cropPosterImage(image, { x, y, width, height }) {
   image.style.width = `${(POSTER_SIZE.width / width) * 100}%`;
   image.style.height = `${(POSTER_SIZE.height / height) * 100}%`;
   image.style.left = `${(-x / width) * 100}%`;
   image.style.top = `${(-y / height) * 100}%`;
+}
+
+function placeCroppedLayer(layer, imageSelector) {
+  const dimensions = placePosterLayer(layer);
+  const image = layer.querySelector(imageSelector);
+
+  if (image) {
+    cropPosterImage(image, dimensions);
+  }
+}
+
+function placeCompanyCard(card) {
+  placeCroppedLayer(card, ".company-card-image");
 }
 
 function updateTilt(card, event) {
@@ -86,5 +96,17 @@ document.querySelectorAll(".tiger-hotspot").forEach((tiger) => {
 });
 
 document.querySelectorAll(".school-hotspot").forEach((school) => {
-  placePosterLayer(school);
+  placeCroppedLayer(school, ".school-card-image");
+
+  school.addEventListener("pointermove", (event) => updateTilt(school, event));
+  school.addEventListener("pointerleave", () => resetTilt(school));
+  school.addEventListener("blur", () => resetTilt(school));
+});
+
+document.querySelectorAll(".chart-slice").forEach((slice) => {
+  placeCroppedLayer(slice, ".chart-slice-image");
+
+  slice.addEventListener("pointermove", (event) => updateTilt(slice, event));
+  slice.addEventListener("pointerleave", () => resetTilt(slice));
+  slice.addEventListener("blur", () => resetTilt(slice));
 });
