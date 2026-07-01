@@ -86,6 +86,7 @@ body {
     box-shadow 180ms ease,
     filter 180ms ease,
     transform 130ms ease;
+  touch-action: manipulation;
   z-index: 2;
 }
 
@@ -147,6 +148,7 @@ body {
   transition:
     filter 180ms ease,
     transform 160ms ease;
+  touch-action: manipulation;
   z-index: 4;
 }
 
@@ -157,6 +159,7 @@ body {
 }
 
 .tiger-hotspot:hover,
+.tiger-hotspot.is-touch-preview,
 .tiger-hotspot:focus-visible {
   --tiger-lift: -1.6%;
   --tiger-scale: 1.018;
@@ -251,6 +254,7 @@ body {
 }
 
 .tiger-hotspot:hover .tiger-spark,
+.tiger-hotspot.is-touch-preview .tiger-spark,
 .tiger-hotspot:focus-visible .tiger-spark {
   animation: spark-pulse 940ms ease-in-out infinite alternate;
   opacity: 0.95;
@@ -263,10 +267,12 @@ body {
   display: block;
   overflow: visible;
   position: absolute;
+  touch-action: manipulation;
   z-index: 5;
 }
 
 .school-hotspot:hover,
+.school-hotspot.is-touch-preview,
 .school-hotspot:focus-visible {
   outline: 0;
   z-index: 16;
@@ -376,12 +382,14 @@ body {
 }
 
 .school-hotspot:hover .school-firework,
+.school-hotspot.is-touch-preview .school-firework,
 .school-hotspot:focus-visible .school-firework {
   animation: school-firework-burst 1180ms ease-out infinite;
   animation-delay: var(--delay);
 }
 
 .company-hotspot:hover,
+.company-hotspot.is-touch-preview,
 .company-hotspot:focus-visible {
   --lift: -8%;
   --scale: 1.075;
@@ -396,6 +404,7 @@ body {
 }
 
 .company-hotspot:hover::before,
+.company-hotspot.is-touch-preview::before,
 .company-hotspot:focus-visible::before {
   opacity: 1;
 }
@@ -436,6 +445,7 @@ body {
   }
 
   .company-hotspot:hover,
+  .company-hotspot.is-touch-preview,
   .company-hotspot:focus-visible {
     --lift: 0%;
     --scale: 1.03;
@@ -444,6 +454,7 @@ body {
   }
 
   .tiger-hotspot:hover,
+  .tiger-hotspot.is-touch-preview,
   .tiger-hotspot:focus-visible {
     --tiger-lift: 0%;
     --tiger-scale: 1;

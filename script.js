@@ -4,6 +4,12 @@ const POSTER_SIZE = {
 };
 
 const supportsReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const supportsTouchPreview = window.matchMedia("(hover: none), (pointer: coarse)");
+const TOUCH_PREVIEW_CLASS = "is-touch-preview";
+const TOUCH_PREVIEW_DURATION = 1900;
+
+let lastPointerType = "";
+const touchPreviewTimers = new WeakMap();
 
 function percent(value, total) {
   return `${(value / total) * 100}%`;
@@ -21,6 +27,101 @@ function placePosterLayer(layer) {
   layer.style.height = percent(height, POSTER_SIZE.height);
 
   return { x, y, width, height };
+}
+
+function isTouchLikePointer(pointerType) {
+  return pointerType === "touch" || pointerType === "pen";
+}
+
+function shouldUseTouchPreview(event) {
+  if (event.detail === 0) {
+    return false;
+  }
+
+  if (isTouchLikePointer(lastPointerType)) {
+    return true;
+  }
+
+  return supportsTouchPreview.matches && lastPointerType !== "mouse";
+}
+
+function clearTouchPreview(layer) {
+  const timer = touchPreviewTimers.get(layer);
+
+  if (timer) {
+    window.clearTimeout(timer);
+    touchPreviewTimers.delete(layer);
+  }
+
+  layer.classList.remove(TOUCH_PREVIEW_CLASS);
+}
+
+function showTouchPreview(layer) {
+  clearTouchPreview(layer);
+  layer.classList.add(TOUCH_PREVIEW_CLASS);
+
+  touchPreviewTimers.set(
+    layer,
+    window.setTimeout(() => {
+      clearTouchPreview(layer);
+    }, TOUCH_PREVIEW_DURATION),
+  );
+}
+
+function getTouchPreviewTarget(event) {
+  if (!(event.target instanceof Element)) {
+    return null;
+  }
+
+  return event.target.closest(".company-hotspot, .school-hotspot, .tiger-hotspot");
+}
+
+function clearOtherTouchPreviews(activeLayer) {
+  document.querySelectorAll(`.${TOUCH_PREVIEW_CLASS}`).forEach((layer) => {
+    if (layer !== activeLayer) {
+      clearTouchPreview(layer);
+    }
+  });
+}
+
+function rememberPointerInput(event) {
+  lastPointerType = event.pointerType || "";
+  clearOtherTouchPreviews(getTouchPreviewTarget(event));
+}
+
+function rememberTouchInput(event) {
+  lastPointerType = "touch";
+  clearOtherTouchPreviews(getTouchPreviewTarget(event));
+}
+
+function setupTouchPreviewLink(link) {
+  link.addEventListener("click", (event) => {
+    if (!shouldUseTouchPreview(event)) {
+      return;
+    }
+
+    if (link.classList.contains(TOUCH_PREVIEW_CLASS)) {
+      clearTouchPreview(link);
+      return;
+    }
+
+    event.preventDefault();
+    showTouchPreview(link);
+  });
+}
+
+function setupTouchPreviewTarget(target) {
+  target.addEventListener("pointerdown", (event) => {
+    if (isTouchLikePointer(event.pointerType)) {
+      showTouchPreview(target);
+    }
+  });
+
+  target.addEventListener("click", (event) => {
+    if (shouldUseTouchPreview(event)) {
+      showTouchPreview(target);
+    }
+  });
 }
 
 function cropPosterImage(image, { x, y, width, height }) {
@@ -79,8 +180,19 @@ function resetTigerTilt(tiger) {
   tiger.style.setProperty("--tiger-tilt-y", "0deg");
 }
 
+document.addEventListener("pointerdown", rememberPointerInput, {
+  capture: true,
+  passive: true,
+});
+
+document.addEventListener("touchstart", rememberTouchInput, {
+  capture: true,
+  passive: true,
+});
+
 document.querySelectorAll(".company-hotspot").forEach((card) => {
   placeCompanyCard(card);
+  setupTouchPreviewLink(card);
 
   card.addEventListener("pointermove", (event) => updateTilt(card, event));
   card.addEventListener("pointerleave", () => resetTilt(card));
@@ -89,6 +201,7 @@ document.querySelectorAll(".company-hotspot").forEach((card) => {
 
 document.querySelectorAll(".tiger-hotspot").forEach((tiger) => {
   placePosterLayer(tiger);
+  setupTouchPreviewTarget(tiger);
 
   tiger.addEventListener("pointermove", (event) => updateTigerTilt(tiger, event));
   tiger.addEventListener("pointerleave", () => resetTigerTilt(tiger));
@@ -97,4 +210,5 @@ document.querySelectorAll(".tiger-hotspot").forEach((tiger) => {
 
 document.querySelectorAll(".school-hotspot").forEach((school) => {
   placePosterLayer(school);
+  setupTouchPreviewLink(school);
 });
