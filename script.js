@@ -440,10 +440,6 @@ document.addEventListener("touchstart", rememberTouchInput, {
   passive: true,
 });
 
-document.querySelectorAll(".palette-cover").forEach((cover) => {
-  placePosterLayer(cover);
-});
-
 document.querySelectorAll(".company-hotspot").forEach((card) => {
   placeCompanyCard(card);
   setupTouchPreviewLink(card);

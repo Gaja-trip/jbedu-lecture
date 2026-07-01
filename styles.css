@@ -63,19 +63,6 @@ body {
   width: 100%;
 }
 
-.palette-cover {
-  background:
-    radial-gradient(ellipse at 58% 18%, rgba(255, 255, 255, 0.64), transparent 46%),
-    linear-gradient(105deg, #d9e9f7 0%, #edf6fc 43%, #d8e9f6 100%);
-  border-radius: 8px;
-  box-shadow:
-    inset 0 0 18px rgba(255, 255, 255, 0.34),
-    0 0 18px rgba(213, 232, 247, 0.52);
-  pointer-events: none;
-  position: absolute;
-  z-index: 1;
-}
-
 .company-hotspot {
   --scale: 1;
   --tilt-x: 0deg;
@@ -340,6 +327,7 @@ body {
 
 .school-lightshow {
   aspect-ratio: 620 / 120;
+  bottom: calc(100% + 8%);
   display: block;
   filter:
     drop-shadow(0 0 8px rgba(255, 255, 255, 0.34))
@@ -348,7 +336,6 @@ body {
   opacity: 0;
   pointer-events: none;
   position: absolute;
-  top: -6%;
   transform: translate3d(0, 12%, 0) scale(0.92);
   transform-origin: 22% 100%;
   transition:
