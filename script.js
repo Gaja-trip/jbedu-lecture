@@ -7,6 +7,7 @@ const supportsReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce
 const supportsTouchPreview = window.matchMedia("(hover: none), (pointer: coarse)");
 const TOUCH_PREVIEW_CLASS = "is-touch-preview";
 const TOUCH_PREVIEW_DURATION = 3200;
+const SCHOOL_DRONE_TEXT = "전주공업고등학교";
 const SVG_NS = "http://www.w3.org/2000/svg";
 
 let lastPointerType = "";
@@ -144,6 +145,12 @@ function getDroneStartOffset(index, group) {
   const wave = Math.sin(index * 1.73) * 28;
   const side = index % 4;
 
+  if (group === "text") {
+    return side < 2
+      ? { startX: -260 + wave, startY: -72 + side * 132 }
+      : { startX: 255 - wave, startY: -106 + side * 54 };
+  }
+
   if (group === "flower") {
     return side < 2
       ? { startX: -190 + wave, startY: -42 + side * 94 }
@@ -207,6 +214,55 @@ function pushCubic(points, group, x1, y1, cx1, cy1, cx2, cy2, x2, y2, count, col
   }
 }
 
+function createSchoolNameDronePoints() {
+  const canvas = document.createElement("canvas");
+  const width = 620;
+  const height = 120;
+  const points = [];
+  const colors = ["#ffffff", "#e8f0ff", "#9fbdff", "#70ecff", "#fff0c7"];
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+
+  if (!context) {
+    return points;
+  }
+
+  canvas.width = width;
+  canvas.height = height;
+  context.clearRect(0, 0, width, height);
+  context.fillStyle = "#ffffff";
+  context.textAlign = "center";
+  context.textBaseline = "middle";
+
+  let fontSize = 54;
+
+  do {
+    context.font = `900 ${fontSize}px "Malgun Gothic", "Noto Sans KR", "Apple SD Gothic Neo", sans-serif`;
+    fontSize -= 2;
+  } while (context.measureText(SCHOOL_DRONE_TEXT).width > 570 && fontSize > 32);
+
+  context.fillText(SCHOOL_DRONE_TEXT, width / 2, 63);
+
+  const pixels = context.getImageData(0, 0, width, height).data;
+  const step = 5;
+
+  for (let y = 18; y <= 96; y += step) {
+    for (let x = 18; x <= 602; x += step) {
+      const alpha = pixels[(y * width + x) * 4 + 3];
+
+      if (alpha < 90) {
+        continue;
+      }
+
+      const color = colors[Math.abs(Math.floor((x + y * 1.7) / 38)) % colors.length];
+      const delay = 60 + x * 1.18 + Math.sin(y * 0.28) * 42;
+
+      pushDronePoint(points, "text", x, y, color, delay, alpha > 190 ? 1.65 : 1.3);
+    }
+  }
+
+  return points;
+}
+
 function buildSchoolDroneShow(school) {
   const container = school.querySelector("[data-drone-show]");
 
@@ -214,46 +270,7 @@ function buildSchoolDroneShow(school) {
     return;
   }
 
-  const points = [];
-  const flowerColors = ["#ffffff", "#f5e8ff", "#d8c9ff", "#ffd8fb"];
-  const flowerCenter = { x: 104, y: 72 };
-
-  for (let petal = 0; petal < 9; petal += 1) {
-    const petalAngle = -Math.PI / 2 + (Math.PI * 2 * petal) / 9;
-    const petalX = flowerCenter.x + Math.cos(petalAngle) * 34;
-    const petalY = flowerCenter.y + Math.sin(petalAngle) * 29;
-
-    pushRing(
-      points,
-      "flower",
-      petalX,
-      petalY,
-      13,
-      9,
-      8,
-      flowerColors[petal % flowerColors.length],
-      70 + petal * 42,
-      2.1,
-      petalAngle / 2,
-    );
-  }
-
-  pushRing(points, "flower", flowerCenter.x, flowerCenter.y, 19, 14, 18, "#ffffff", 220, 2);
-  pushRing(points, "flower", flowerCenter.x, flowerCenter.y, 7, 5, 10, "#ffe6ff", 340, 2.3);
-
-  pushRing(points, "ribbon", 182, 127, 28, 22, 30, "#86a2ff", 480, 2.15, 0.2);
-  pushRing(points, "ribbon", 223, 126, 29, 21, 30, "#6f8cff", 520, 2.15, -0.15);
-  pushRing(points, "ribbon", 203, 130, 9, 7, 10, "#c8d4ff", 640, 2.35);
-  pushLine(points, "ribbon", 202, 137, 162, 208, 17, "#6f8cff", 700, 2.2);
-  pushLine(points, "ribbon", 205, 137, 241, 209, 17, "#8aa6ff", 735, 2.2);
-  pushLine(points, "ribbon", 196, 138, 206, 198, 13, "#9fb4ff", 790, 2);
-
-  pushCubic(points, "branch", 238, 91, 275, 48, 330, 55, 363, 76, 31, "#7dffd8", 920, 2);
-  pushCubic(points, "branch", 239, 112, 280, 132, 326, 132, 364, 119, 27, "#6fffc7", 1000, 2);
-  pushLine(points, "branch", 281, 76, 302, 49, 10, "#a8fff0", 1070, 1.9);
-  pushLine(points, "branch", 289, 80, 318, 74, 11, "#bffff4", 1110, 1.9);
-  pushLine(points, "branch", 300, 116, 332, 145, 13, "#86ffd9", 1160, 1.9);
-  pushLine(points, "branch", 268, 105, 248, 132, 10, "#a8fff0", 1210, 1.9);
+  const points = createSchoolNameDronePoints();
 
   points.forEach((point) => {
     container.appendChild(createSvgCircle(point));
@@ -421,6 +438,10 @@ document.addEventListener("pointerdown", rememberPointerInput, {
 document.addEventListener("touchstart", rememberTouchInput, {
   capture: true,
   passive: true,
+});
+
+document.querySelectorAll(".palette-cover").forEach((cover) => {
+  placePosterLayer(cover);
 });
 
 document.querySelectorAll(".company-hotspot").forEach((card) => {
