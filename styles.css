@@ -168,13 +168,28 @@ body {
 }
 
 .tiger-spark {
+  --spark-accent: #ffffff;
+  --spark-color: #ffe15d;
+  --spark-delay: 0ms;
   --spark-hover-scale: 0.96;
   --spark-rest-scale: 0.46;
   --spark-rotation: 0deg;
   --spark-size: 48px;
   background:
-    radial-gradient(circle, rgba(255, 255, 255, 0.96) 0 5%, rgba(255, 229, 112, 0.64) 13%, transparent 44%),
-    radial-gradient(circle, rgba(37, 99, 235, 0.24), transparent 60%);
+    radial-gradient(circle, #ffffff 0 4%, var(--spark-accent) 5% 10%, transparent 24%),
+    conic-gradient(
+      from 18deg,
+      transparent 0 7%,
+      color-mix(in srgb, var(--spark-color), #ffffff 38%) 8% 10%,
+      transparent 11% 19%,
+      var(--spark-color) 20% 22%,
+      transparent 23% 31%,
+      color-mix(in srgb, var(--spark-accent), #ffffff 42%) 32% 34%,
+      transparent 35% 43%,
+      var(--spark-color) 44% 46%,
+      transparent 47% 100%
+    ),
+    radial-gradient(circle, color-mix(in srgb, var(--spark-color), transparent 52%), transparent 62%);
   height: var(--spark-size);
   mix-blend-mode: screen;
   opacity: 0;
@@ -189,35 +204,46 @@ body {
 
 .tiger-spark::before,
 .tiger-spark::after {
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.96), rgba(255, 225, 122, 0.82), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.98) 43%,
+    var(--spark-color) 50%,
+    rgba(255, 255, 255, 0.96) 57%,
+    transparent 100%
+  );
   border: 0;
   border-radius: 999px;
   content: "";
   display: block;
   filter:
-    drop-shadow(0 0 6px rgba(255, 255, 255, 0.8))
-    drop-shadow(0 0 12px rgba(240, 139, 15, 0.82));
-  height: 3px;
+    drop-shadow(0 0 5px rgba(255, 255, 255, 0.92))
+    drop-shadow(0 0 14px var(--spark-color));
+  height: max(2px, calc(var(--spark-size) * 0.06));
   left: 50%;
   position: absolute;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 100%;
+  width: 112%;
 }
 
 .tiger-spark::after {
-  height: 100%;
+  height: 112%;
   transform: translate(-50%, -50%) rotate(90deg);
-  width: 3px;
+  width: max(2px, calc(var(--spark-size) * 0.06));
 }
 
 .tiger-spark-one {
+  --spark-accent: #fff5bc;
+  --spark-color: #ffe15d;
   --spark-size: 54px;
   left: 12%;
   top: 20%;
 }
 
 .tiger-spark-two {
+  --spark-accent: #a7f3ff;
+  --spark-color: #25e2ff;
   --spark-hover-scale: 0.86;
   --spark-rest-scale: 0.4;
   --spark-rotation: 28deg;
@@ -227,6 +253,8 @@ body {
 }
 
 .tiger-spark-three {
+  --spark-accent: #ffd0ef;
+  --spark-color: #ff4bb3;
   --spark-hover-scale: 0.76;
   --spark-rest-scale: 0.34;
   --spark-rotation: -20deg;
@@ -236,6 +264,8 @@ body {
 }
 
 .tiger-spark-four {
+  --spark-accent: #d8ffe6;
+  --spark-color: #47f6a7;
   --spark-hover-scale: 0.86;
   --spark-rest-scale: 0.4;
   --spark-rotation: -10deg;
@@ -245,6 +275,8 @@ body {
 }
 
 .tiger-spark-five {
+  --spark-accent: #d8c9ff;
+  --spark-color: #9b5cff;
   --spark-hover-scale: 0.8;
   --spark-rest-scale: 0.36;
   --spark-rotation: 16deg;
@@ -257,6 +289,7 @@ body {
 .tiger-hotspot.is-touch-preview .tiger-spark,
 .tiger-hotspot:focus-visible .tiger-spark {
   animation: spark-pulse 940ms ease-in-out infinite alternate;
+  animation-delay: var(--spark-delay);
   opacity: 0.95;
   transform: scale(var(--spark-hover-scale)) rotate(var(--spark-rotation));
 }
@@ -279,11 +312,11 @@ body {
 }
 
 .school-lightshow {
-  aspect-ratio: 392 / 166;
-  bottom: calc(100% + 8%);
+  aspect-ratio: 392 / 230;
+  bottom: calc(100% + 3%);
   display: block;
-  filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.36));
-  left: 1%;
+  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.42));
+  left: -1%;
   opacity: 0;
   pointer-events: none;
   position: absolute;
@@ -292,7 +325,7 @@ body {
   transition:
     opacity 180ms ease,
     transform 260ms cubic-bezier(0.16, 0.82, 0.32, 1);
-  width: 82%;
+  width: 90%;
   z-index: 3;
 }
 
@@ -304,13 +337,29 @@ body {
 }
 
 .lightshow-sky {
-  fill: rgba(8, 18, 34, 0.66);
-  opacity: 0.86;
+  fill: rgba(6, 10, 25, 0.76);
+  opacity: 0.9;
 }
 
-.lightshow-copy,
-.lightshow-heart {
-  opacity: 0.9;
+.drone-flight-line {
+  fill: none;
+  opacity: 0;
+  stroke: rgba(128, 166, 255, 0.32);
+  stroke-dasharray: 14 16;
+  stroke-linecap: round;
+  stroke-width: 1.4;
+}
+
+.drone-flight-line-two {
+  stroke: rgba(103, 255, 205, 0.26);
+}
+
+.drone-dot {
+  fill: var(--drone-color, #ffffff);
+  opacity: 0;
+  transform:
+    translate(var(--start-x, 0), var(--start-y, 0))
+    scale(0.22);
   transform-box: fill-box;
   transform-origin: center;
 }
@@ -322,16 +371,18 @@ body {
   transform: translate3d(0, 0, 0) scale(1);
 }
 
-.school-hotspot:hover .lightshow-copy,
-.school-hotspot.is-touch-preview .lightshow-copy,
-.school-hotspot:focus-visible .lightshow-copy {
-  animation: lightshow-blue-twinkle 1320ms ease-in-out infinite alternate;
+.school-hotspot:hover .drone-flight-line,
+.school-hotspot.is-touch-preview .drone-flight-line,
+.school-hotspot:focus-visible .drone-flight-line {
+  animation: drone-flight-path 1320ms ease-out both;
 }
 
-.school-hotspot:hover .lightshow-heart,
-.school-hotspot.is-touch-preview .lightshow-heart,
-.school-hotspot:focus-visible .lightshow-heart {
-  animation: lightshow-heart-pulse 1180ms ease-in-out infinite alternate;
+.school-hotspot:hover .drone-dot,
+.school-hotspot.is-touch-preview .drone-dot,
+.school-hotspot:focus-visible .drone-dot {
+  animation:
+    drone-fly-in 1420ms cubic-bezier(0.17, 0.84, 0.3, 1) var(--drone-delay, 0ms) both,
+    drone-twinkle 980ms ease-in-out calc(var(--drone-delay, 0ms) + 1320ms) infinite alternate;
 }
 
 .school-firework {
@@ -437,13 +488,6 @@ body {
   --y: 54%;
 }
 
-.school-hotspot:hover .school-firework,
-.school-hotspot.is-touch-preview .school-firework,
-.school-hotspot:focus-visible .school-firework {
-  animation: school-firework-burst 1180ms ease-out infinite;
-  animation-delay: var(--delay);
-}
-
 .company-hotspot:hover,
 .company-hotspot.is-touch-preview,
 .company-hotspot:focus-visible {
@@ -494,8 +538,8 @@ body {
   .company-hotspot::after,
   .school-hotspot,
   .school-lightshow,
-  .lightshow-copy,
-  .lightshow-heart,
+  .drone-flight-line,
+  .drone-dot,
   .school-firework,
   .tiger-hotspot,
   .tiger-spark {
@@ -520,31 +564,58 @@ body {
     --tiger-tilt-x: 0deg;
     --tiger-tilt-y: 0deg;
   }
-}
 
-@keyframes lightshow-blue-twinkle {
-  0% {
-    opacity: 0.72;
-  }
-
-  48% {
+  .school-hotspot:hover .drone-dot,
+  .school-hotspot.is-touch-preview .drone-dot,
+  .school-hotspot:focus-visible .drone-dot {
     opacity: 1;
-  }
-
-  100% {
-    opacity: 0.86;
+    transform: translate(0, 0) scale(1);
   }
 }
 
-@keyframes lightshow-heart-pulse {
+@keyframes drone-flight-path {
   0% {
+    opacity: 0;
+    stroke-dashoffset: 46;
+  }
+
+  35% {
     opacity: 0.74;
-    transform: scale(0.985);
+  }
+
+  100% {
+    opacity: 0;
+    stroke-dashoffset: -16;
+  }
+}
+
+@keyframes drone-fly-in {
+  0% {
+    opacity: 0;
+    transform:
+      translate(var(--start-x, 0), var(--start-y, 0))
+      scale(0.2);
+  }
+
+  54% {
+    opacity: 1;
   }
 
   100% {
     opacity: 1;
-    transform: scale(1.025);
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+@keyframes drone-twinkle {
+  0% {
+    opacity: 0.68;
+    transform: translate(0, 0) scale(0.84);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1.18);
   }
 }
 
