@@ -327,7 +327,7 @@ body {
 
 .school-lightshow {
   aspect-ratio: 620 / 120;
-  bottom: calc(100% + 8%);
+  bottom: calc(100% - 32%);
   display: block;
   filter:
     drop-shadow(0 0 8px rgba(255, 255, 255, 0.34))
@@ -341,7 +341,7 @@ body {
   transition:
     opacity 180ms ease,
     transform 260ms cubic-bezier(0.16, 0.82, 0.32, 1);
-  width: 116%;
+  width: 104%;
   z-index: 3;
 }
 
