@@ -262,7 +262,23 @@ function buildSchoolDroneShow(school) {
   container.dataset.ready = "true";
 }
 
-function createTigerSpark({ x, y, size, color, accent, delay, scale, rotation }) {
+function createTigerSpark({
+  x,
+  y,
+  size,
+  color,
+  accent,
+  delay,
+  scale,
+  rotation,
+  driftX = 0,
+  driftY = 0,
+  driftAltX = 0,
+  driftAltY = 0,
+  driftGlintX = 0,
+  driftGlintY = 0,
+  duration = 1120,
+}) {
   const spark = document.createElement("span");
 
   spark.className = "tiger-spark tiger-spark-field";
@@ -273,6 +289,13 @@ function createTigerSpark({ x, y, size, color, accent, delay, scale, rotation })
   spark.style.setProperty("--spark-color", color);
   spark.style.setProperty("--spark-accent", accent);
   spark.style.setProperty("--spark-delay", `${delay}ms`);
+  spark.style.setProperty("--spark-drift-alt-x", `${driftAltX.toFixed(1)}px`);
+  spark.style.setProperty("--spark-drift-alt-y", `${driftAltY.toFixed(1)}px`);
+  spark.style.setProperty("--spark-drift-glint-x", `${driftGlintX.toFixed(1)}px`);
+  spark.style.setProperty("--spark-drift-glint-y", `${driftGlintY.toFixed(1)}px`);
+  spark.style.setProperty("--spark-drift-x", `${driftX.toFixed(1)}px`);
+  spark.style.setProperty("--spark-drift-y", `${driftY.toFixed(1)}px`);
+  spark.style.setProperty("--spark-duration", `${duration}ms`);
   spark.style.setProperty("--spark-hover-scale", scale.toFixed(2));
   spark.style.setProperty("--spark-rest-scale", "0.22");
   spark.style.setProperty("--spark-rotation", `${rotation}deg`);
@@ -305,6 +328,10 @@ function buildTigerSparkField(tiger) {
 
   sparks.forEach(([x, y, size], index) => {
     const [color, accent] = palette[index % palette.length];
+    const motionAngle = index * 2.399 + 0.4;
+    const distance = 4 + (index % 5) * 1.7;
+    const driftX = Math.cos(motionAngle) * distance;
+    const driftY = Math.sin(motionAngle) * distance;
 
     tiger.appendChild(
       createTigerSpark({
@@ -316,6 +343,13 @@ function buildTigerSparkField(tiger) {
         delay: (index % 9) * 72,
         scale: 0.58 + (index % 5) * 0.09,
         rotation: -32 + ((index * 29) % 78),
+        driftX,
+        driftY,
+        driftAltX: driftX * -0.42,
+        driftAltY: driftY * 0.36,
+        driftGlintX: Math.sin(motionAngle) * distance * 0.62,
+        driftGlintY: Math.cos(motionAngle) * distance * -0.58,
+        duration: 820 + (index % 6) * 115,
       }),
     );
   });
