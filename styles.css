@@ -278,6 +278,62 @@ body {
   z-index: 16;
 }
 
+.school-lightshow {
+  aspect-ratio: 392 / 166;
+  bottom: calc(100% + 8%);
+  display: block;
+  filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.36));
+  left: 1%;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  transform: translate3d(0, 12%, 0) scale(0.92);
+  transform-origin: 22% 100%;
+  transition:
+    opacity 180ms ease,
+    transform 260ms cubic-bezier(0.16, 0.82, 0.32, 1);
+  width: 82%;
+  z-index: 3;
+}
+
+.school-lightshow-svg {
+  display: block;
+  height: 100%;
+  overflow: visible;
+  width: 100%;
+}
+
+.lightshow-sky {
+  fill: rgba(8, 18, 34, 0.66);
+  opacity: 0.86;
+}
+
+.lightshow-copy,
+.lightshow-heart {
+  opacity: 0.9;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.school-hotspot:hover .school-lightshow,
+.school-hotspot.is-touch-preview .school-lightshow,
+.school-hotspot:focus-visible .school-lightshow {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.school-hotspot:hover .lightshow-copy,
+.school-hotspot.is-touch-preview .lightshow-copy,
+.school-hotspot:focus-visible .lightshow-copy {
+  animation: lightshow-blue-twinkle 1320ms ease-in-out infinite alternate;
+}
+
+.school-hotspot:hover .lightshow-heart,
+.school-hotspot.is-touch-preview .lightshow-heart,
+.school-hotspot:focus-visible .lightshow-heart {
+  animation: lightshow-heart-pulse 1180ms ease-in-out infinite alternate;
+}
+
 .school-firework {
   --delay: 0ms;
   --rotate: 0deg;
@@ -437,6 +493,9 @@ body {
   .company-hotspot::before,
   .company-hotspot::after,
   .school-hotspot,
+  .school-lightshow,
+  .lightshow-copy,
+  .lightshow-heart,
   .school-firework,
   .tiger-hotspot,
   .tiger-spark {
@@ -460,6 +519,32 @@ body {
     --tiger-scale: 1;
     --tiger-tilt-x: 0deg;
     --tiger-tilt-y: 0deg;
+  }
+}
+
+@keyframes lightshow-blue-twinkle {
+  0% {
+    opacity: 0.72;
+  }
+
+  48% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.86;
+  }
+}
+
+@keyframes lightshow-heart-pulse {
+  0% {
+    opacity: 0.74;
+    transform: scale(0.985);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1.025);
   }
 }
 

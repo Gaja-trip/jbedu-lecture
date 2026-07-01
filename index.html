@@ -47,6 +47,56 @@
           data-w="520"
           data-h="140"
         >
+          <span class="school-lightshow" aria-hidden="true">
+            <svg class="school-lightshow-svg" viewBox="0 0 392 166" focusable="false" aria-hidden="true">
+              <defs>
+                <pattern id="school-blue-dots" width="8" height="8" patternUnits="userSpaceOnUse">
+                  <circle cx="2.7" cy="2.7" r="1.85" fill="#7ea8ff" />
+                </pattern>
+                <pattern id="school-pink-dots" width="9" height="9" patternUnits="userSpaceOnUse">
+                  <circle cx="3" cy="3" r="1.9" fill="#ff4bb3" />
+                </pattern>
+                <filter id="school-blue-glow" x="-20%" y="-35%" width="140%" height="170%">
+                  <feGaussianBlur stdDeviation="2.1" result="blur" />
+                  <feColorMatrix
+                    in="blur"
+                    result="blueGlow"
+                    type="matrix"
+                    values="0 0 0 0 0.16 0 0 0 0 0.43 0 0 0 0 1 0 0 0 0.82 0"
+                  />
+                  <feMerge>
+                    <feMergeNode in="blueGlow" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+                <filter id="school-pink-glow" x="-24%" y="-24%" width="148%" height="148%">
+                  <feGaussianBlur stdDeviation="2.4" result="blur" />
+                  <feColorMatrix
+                    in="blur"
+                    result="pinkGlow"
+                    type="matrix"
+                    values="1 0 0 0 1 0 0 0 0 0.12 0 0 0 0 0.63 0 0 0 0.82 0"
+                  />
+                  <feMerge>
+                    <feMergeNode in="pinkGlow" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+              <rect class="lightshow-sky" x="0" y="0" width="392" height="166" rx="10" />
+              <g class="lightshow-copy" filter="url(#school-blue-glow)">
+                <text x="14" y="45" fill="url(#school-blue-dots)" font-family="Arial Black, Arial, sans-serif" font-size="34" font-weight="900">THANKS</text>
+                <text x="142" y="91" fill="url(#school-blue-dots)" font-family="Arial Black, Arial, sans-serif" font-size="35" font-weight="900">TO</text>
+                <text x="100" y="139" fill="url(#school-blue-dots)" font-family="Arial Black, Arial, sans-serif" font-size="36" font-weight="900">YOU</text>
+              </g>
+              <path
+                class="lightshow-heart"
+                d="M285 144 C225 102 205 75 205 45 C205 22 224 12 244 12 C262 12 277 22 285 38 C293 22 308 12 326 12 C346 12 365 22 365 45 C365 75 345 102 285 144 Z"
+                fill="url(#school-pink-dots)"
+                filter="url(#school-pink-glow)"
+              />
+            </svg>
+          </span>
           <span class="school-firework school-firework-one" aria-hidden="true"></span>
           <span class="school-firework school-firework-two" aria-hidden="true"></span>
           <span class="school-firework school-firework-three" aria-hidden="true"></span>
